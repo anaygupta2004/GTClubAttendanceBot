@@ -8,11 +8,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
+
 class AttendanceBot:
     def __init__(self):
         self.base = SeleniumBase(2)
         self.question_list = '//*[@id="question-list"]'
-        self.attendance_link = 'https://forms.office.com/r/Q0PHgWKAT6'
+        self.attendance_link = "https://forms.office.com/r/8pvW3YZRFP"
 
     def open_form(self):
         # open in new tab:
@@ -22,20 +23,22 @@ class AttendanceBot:
         self.base.driver.get(self.attendance_link)
 
     def fill_name(self, name):
-        name_path = self.question_list + '/div[1]/div[2]/div/span/input'
+        name_path = self.question_list + "/div[1]/div[2]/div/span/input"
         name_field = self.base.get_by_xpath(name_path)
         self.base.send_keys(name_field, name)
 
     def fill_club(self):
-        club_path = self.question_list + '/div[2]/div[2]/div/div'
+        club_path = self.question_list + "/div[2]/div[2]/div/div"
         club_field = self.base.get_by_xpath(club_path)
         club_field.click()
 
-        program_team_field = self.base.get_by_text("span", "Competitive Programming @ Tech")
+        program_team_field = self.base.get_by_text(
+            "span", "Competitive Programming @ Tech"
+        )
         program_team_field.click()
 
     def fill_major(self):
-        major_path = self.question_list + '/div[3]/div[2]/div/div'
+        major_path = self.question_list + "/div[3]/div[2]/div/div"
         major_field = self.base.get_by_xpath(major_path)
         major_field.click()
 
@@ -43,23 +46,31 @@ class AttendanceBot:
         coc_field.click()
 
     def fill_in_person(self):
-        in_person_path = self.question_list + '/div[4]/div[2]/div/div/div[1]/div'
+        in_person_path = self.question_list + "/div[4]/div[2]/div/div/div[1]/div"
         in_person_field = self.base.get_by_xpath(in_person_path)
         in_person_field.click()
 
     def submit(self, testing=False):
-        submitButton = self.base.driver.find_element(By.CSS_SELECTOR, '[data-automation-id="submitButton"]')
-        if testing: time.sleep(3)
-        else: submitButton.click()
+        submitButton = self.base.driver.find_element(
+            By.CSS_SELECTOR, '[data-automation-id="submitButton"]'
+        )
+        if testing:
+            time.sleep(0)
+        else:
+            submitButton.click()
 
     def debug(self, name):
         self.base.screenshot(f"{name}.png")
 
     def formSequence(self, name):
         self.open_form()
+        self.debug("Form")
         self.fill_name(name)
+        self.debug("Name")
         self.fill_club()
+        self.debug("Club")
         self.fill_major()
+        self.debug("Major")
         self.fill_in_person()
-        self.submit(True)
-        self.debug(name)
+        self.debug("In Person")
+        self.submit(False)
