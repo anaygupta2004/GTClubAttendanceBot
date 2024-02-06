@@ -27,8 +27,6 @@ class SeleniumBase:
 
         self.driver = WebDriver(options=options)
         self.wait = WebDriverWait(self.driver, 20)
-        self.screenshotFile = "screenshots/" + time.strftime("%Y%m%d-%H%M%S") + "/"
-        os.makedirs(self.screenshotFile)
 
     # Debug functions
     def screenshot(self, filename):

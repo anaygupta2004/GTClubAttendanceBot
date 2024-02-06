@@ -59,18 +59,10 @@ class AttendanceBot:
         else:
             submitButton.click()
 
-    def debug(self, name):
-        self.base.screenshot(f"{name}.png")
-
     def formSequence(self, name):
         self.open_form()
-        self.debug("Form")
         self.fill_name(name)
-        self.debug("Name")
         self.fill_club()
-        self.debug("Club")
         self.fill_major()
-        self.debug("Major")
         self.fill_in_person()
-        self.debug("In Person")
         self.submit(False)

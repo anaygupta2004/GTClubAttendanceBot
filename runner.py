@@ -1,18 +1,27 @@
 from multiprocessing import Process
 from attendance_bot import AttendanceBot
 
-def read_names():
-    names = []
-    with open("names_list.txt") as f:
-        name = f.readline().rstrip()
 
-        while name:
-            names.append(name)
-            name = f.readline().rstrip()
+def process_name(name):
+    bot = AttendanceBot()
+    bot.formSequence(name)
+
+
+def read_names_from_file(file_path):
+    with open(file_path, "r") as f:
+        names = [line.strip() for line in f if line.strip()]
     return names
 
+
 if __name__ == "__main__":
-    names = read_names()
+    text_file_path = "/app/names_list.txt"
+    names = read_names_from_file(text_file_path)
+
+    processes = []
     for name in names:
-        bot = AttendanceBot()
-        bot.formSequence(name)
+        p = Process(target=process_name, args=(name,))
+        processes.append(p)
+        p.start()
+
+    for p in processes:
+        p.join()
